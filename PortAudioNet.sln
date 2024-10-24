@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35417.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortAudioNet.Generator", "PortAudioNet.Generator\PortAudioNet.Generator.csproj", "{BE3DBC8B-BD03-4534-8536-036026CA120A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortAudioNet", "PortAudioNet\PortAudioNet.csproj", "{24AF6FCC-6846-4014-8EF7-C1984467EF73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortAudioNet.Native", "PortAudioNet.Native\PortAudioNet.Native.csproj", "{B7FC7574-8B80-49D7-9487-B359AFBBC522}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tooling", "tooling", "{0C4DA120-87E0-44DA-9045-38A4F590FD45}"
+	ProjectSection(SolutionItems) = preProject
+		tooling\Common.csproj.props = tooling\Common.csproj.props
+		tooling\Common.csproj.targets = tooling\Common.csproj.targets
+		tooling\Common.props = tooling\Common.props
+		tooling\Common.targets = tooling\Common.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{C84D0B8B-C6D6-4981-BFDF-38011158FD0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListDevices", "Samples\ListDevices\ListDevices.csproj", "{496E4E83-4E86-4199-B3FF-E2F8D5DD7789}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE3DBC8B-BD03-4534-8536-036026CA120A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE3DBC8B-BD03-4534-8536-036026CA120A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE3DBC8B-BD03-4534-8536-036026CA120A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE3DBC8B-BD03-4534-8536-036026CA120A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24AF6FCC-6846-4014-8EF7-C1984467EF73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24AF6FCC-6846-4014-8EF7-C1984467EF73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24AF6FCC-6846-4014-8EF7-C1984467EF73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24AF6FCC-6846-4014-8EF7-C1984467EF73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7FC7574-8B80-49D7-9487-B359AFBBC522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7FC7574-8B80-49D7-9487-B359AFBBC522}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7FC7574-8B80-49D7-9487-B359AFBBC522}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7FC7574-8B80-49D7-9487-B359AFBBC522}.Release|Any CPU.Build.0 = Release|Any CPU
+		{496E4E83-4E86-4199-B3FF-E2F8D5DD7789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{496E4E83-4E86-4199-B3FF-E2F8D5DD7789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{496E4E83-4E86-4199-B3FF-E2F8D5DD7789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{496E4E83-4E86-4199-B3FF-E2F8D5DD7789}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{496E4E83-4E86-4199-B3FF-E2F8D5DD7789} = {C84D0B8B-C6D6-4981-BFDF-38011158FD0A}
+	EndGlobalSection
+EndGlobal

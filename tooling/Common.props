@@ -1,0 +1,19 @@
+<Project>
+  <!-- Default configuration and platform when not present -->
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+  </PropertyGroup>
+
+  <!-- Build to central artifacts folder instead of scattering bin and obj throughout the solution tree -->
+  <PropertyGroup>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+    <ArtifactsPath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../artifacts'))</ArtifactsPath>
+
+    <!--
+      Odd things can happen when WSL and Windows share the same output directories (IE: when building from a single clone of the repo which is shared between both.)
+      As such if we detect we're running under WSL we use different output directories.
+    -->
+    <ArtifactsPath Condition="'$(WSL_DISTRO_NAME)' != ''">$(ArtifactsPath)/wsl</ArtifactsPath>
+  </PropertyGroup>
+</Project>

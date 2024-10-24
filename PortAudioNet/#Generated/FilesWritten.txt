@@ -1,0 +1,16 @@
+AssemblyAttributes.cs
+Diagnostics.log
+PaDeviceInfo.cs
+PaErrorCode.cs
+PaHostApiInfo.cs
+PaHostApiTypeId.cs
+PaHostErrorInfo.cs
+PaSampleFormat.cs
+PaStreamCallbackFlags.cs
+PaStreamCallbackResult.cs
+PaStreamCallbackTimeInfo.cs
+PaStreamFlags.cs
+PaStreamInfo.cs
+PaStreamParameters.cs
+PaVersionInfo.cs
+PortAudio.cs
