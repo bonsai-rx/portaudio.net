@@ -17,4 +17,11 @@ unsafe partial class PortAudio
         return Encoding.UTF8.GetString(ptr, byteCount);
 #endif
     }
+
+    /// <summary>Checks the return value of functions which return negative values on error</summary>
+    public static void CheckReturn(int maybeErrorValue)
+    {
+        if (maybeErrorValue < 0)
+            ((PaError)maybeErrorValue).Throw();
+    }
 }

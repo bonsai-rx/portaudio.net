@@ -47,6 +47,7 @@ internal sealed class PaErrorCodeTransformation : TransformationBase
         Debug.Assert(PaError is not null);
         return declaration with
         {
+            Name = nameof(PaError),
             UnderlyingType = PaError.UnderlyingType,
             ReplacedDeclarations = [PaError],
         };

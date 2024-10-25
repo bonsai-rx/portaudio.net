@@ -4,7 +4,7 @@
 #nullable enable
 namespace PortAudioNet
 {
-    public enum PaErrorCode
+    public enum PaError
     {
         NoError = 0,
         NotInitialized = -10000,

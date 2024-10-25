@@ -1,7 +1,7 @@
 AssemblyAttributes.cs
 Diagnostics.log
 PaDeviceInfo.cs
-PaErrorCode.cs
+PaError.cs
 PaHostApiInfo.cs
 PaHostApiTypeId.cs
 PaHostErrorInfo.cs

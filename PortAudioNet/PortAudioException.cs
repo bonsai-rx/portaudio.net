@@ -4,7 +4,7 @@ namespace PortAudioNet;
 
 public sealed class PortAudioException : Exception
 {
-    public unsafe PortAudioException(PaErrorCode errorCode)
+    public unsafe PortAudioException(PaError errorCode)
         : base(errorCode.GetErrorText())
     { }
 }
