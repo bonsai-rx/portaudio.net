@@ -114,6 +114,7 @@ library = new LiftAnonymousRecordFieldsTransformation().Transform(library);
 library = new MacroTransformation(constantEvaluator).Transform(library);
 library = new PaErrorCodeTransformation().Transform(library);
 library = new RemovePrefixesTransformation().Transform(library);
+library = new PaStreamCallbackResultTransformation().Transform(library);
 library = new PaStreamHandleTransformation().Transform(library);
 library = new NamespaceAllDeclarationsTransformation().Transform(library);
 

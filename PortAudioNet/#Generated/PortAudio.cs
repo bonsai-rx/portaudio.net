@@ -60,10 +60,10 @@ namespace PortAudioNet
         public static extern PaError IsFormatSupported(PaStreamParameters* inputParameters, PaStreamParameters* outputParameters, double sampleRate);
 
         [DllImport("portaudio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "Pa_OpenStream", ExactSpelling = true)]
-        public static extern PaError OpenStream(PaStream** stream, PaStreamParameters* inputParameters, PaStreamParameters* outputParameters, double sampleRate, uint framesPerBuffer, PaStreamFlags streamFlags, delegate* unmanaged[Cdecl]<void*, void*, uint, PaStreamCallbackTimeInfo*, PaStreamCallbackFlags, void*, int> streamCallback, void* userData);
+        public static extern PaError OpenStream(PaStream** stream, PaStreamParameters* inputParameters, PaStreamParameters* outputParameters, double sampleRate, uint framesPerBuffer, PaStreamFlags streamFlags, delegate* unmanaged[Cdecl]<void*, void*, uint, PaStreamCallbackTimeInfo*, PaStreamCallbackFlags, void*, PaStreamCallbackResult> streamCallback, void* userData);
 
         [DllImport("portaudio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "Pa_OpenDefaultStream", ExactSpelling = true)]
-        public static extern PaError OpenDefaultStream(PaStream** stream, int numInputChannels, int numOutputChannels, PaSampleFormat sampleFormat, double sampleRate, uint framesPerBuffer, delegate* unmanaged[Cdecl]<void*, void*, uint, PaStreamCallbackTimeInfo*, PaStreamCallbackFlags, void*, int> streamCallback, void* userData);
+        public static extern PaError OpenDefaultStream(PaStream** stream, int numInputChannels, int numOutputChannels, PaSampleFormat sampleFormat, double sampleRate, uint framesPerBuffer, delegate* unmanaged[Cdecl]<void*, void*, uint, PaStreamCallbackTimeInfo*, PaStreamCallbackFlags, void*, PaStreamCallbackResult> streamCallback, void* userData);
 
         [DllImport("portaudio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "Pa_CloseStream", ExactSpelling = true)]
         public static extern PaError CloseStream(PaStream* stream);
