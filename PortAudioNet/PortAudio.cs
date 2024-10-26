@@ -24,4 +24,12 @@ unsafe partial class PortAudio
         if (maybeErrorValue < 0)
             ((PaError)maybeErrorValue).Throw();
     }
+
+#if !NET5_0_OR_GREATER
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate PaStreamCallbackResult PaStreamCallback(void* input, void* output, uint frameCount, PaStreamCallbackTimeInfo* timeInfo, PaStreamCallbackFlags statusFlags, void* userData);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void PaStreamFinishedCallback(void* userData);
+#endif
 }

@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{C84D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListDevices", "Samples\ListDevices\ListDevices.csproj", "{496E4E83-4E86-4199-B3FF-E2F8D5DD7789}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SineWave", "Samples\SineWave\SineWave.csproj", "{01ECF731-EB77-4329-90C4-FF862F8E8759}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,11 +45,16 @@ Global
 		{496E4E83-4E86-4199-B3FF-E2F8D5DD7789}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{496E4E83-4E86-4199-B3FF-E2F8D5DD7789}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{496E4E83-4E86-4199-B3FF-E2F8D5DD7789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01ECF731-EB77-4329-90C4-FF862F8E8759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01ECF731-EB77-4329-90C4-FF862F8E8759}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01ECF731-EB77-4329-90C4-FF862F8E8759}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01ECF731-EB77-4329-90C4-FF862F8E8759}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{496E4E83-4E86-4199-B3FF-E2F8D5DD7789} = {C84D0B8B-C6D6-4981-BFDF-38011158FD0A}
+		{01ECF731-EB77-4329-90C4-FF862F8E8759} = {C84D0B8B-C6D6-4981-BFDF-38011158FD0A}
 	EndGlobalSection
 EndGlobal
