@@ -17,7 +17,8 @@ if (args.Length != 3)
 }
 
 string portAudioSourceDirectoryPath = Path.GetFullPath(args[0]);
-string portAudioHeaderFilePath = Path.Combine(portAudioSourceDirectoryPath, "include", "portaudio.h");
+string portAudioIncludeDirectoryPath = Path.Combine(portAudioSourceDirectoryPath, "include");
+string portAudioHeaderFilePath = Path.Combine(portAudioIncludeDirectoryPath, "portaudio.h");
 
 string portAudioLibraryFilePath = Path.GetFullPath(args[1]);
 
@@ -71,6 +72,8 @@ libraryBuilder.AddCommandLineArgument($"-DPAWIN_USE_WDMKS_DEVICE_INFO");
 //libraryBuilder.AddCommandLineArgument($"-DPA_USE_SNDIO=1");
 
 libraryBuilder.AddFile(portAudioHeaderFilePath);
+if (OperatingSystem.IsWindows())
+    libraryBuilder.AddFile(Path.Combine(portAudioIncludeDirectoryPath, "pa_win_wasapi.h"));
 
 TranslatedLibrary library = libraryBuilder.Create();
 TranslatedLibraryConstantEvaluator constantEvaluator = libraryBuilder.CreateConstantEvaluator();
@@ -127,7 +130,13 @@ library = new Issue115WorkaroundTransformation().Transform(library);
 // Finalize Structure
 library = new MoveLooseDeclarationsIntoTypesTransformation
 (
-    (c, d) => "PortAudio"
+    (c, d) =>
+    {
+        string typeName = "PortAudio";
+        if (d.File.CSharpFriendlyName() is string suffix)
+            typeName += suffix;
+        return typeName;
+    }
 ).Transform(library);
 
 // Generate Function Trampolines

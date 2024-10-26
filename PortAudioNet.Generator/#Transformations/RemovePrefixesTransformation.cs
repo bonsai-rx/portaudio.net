@@ -21,5 +21,11 @@ internal sealed class RemovePrefixesTransformation : TransformationBase
         => StripPrefix(declaration, "pa");
 
     protected override TransformationResult TransformFunction(TransformationContext context, TranslatedFunction declaration)
-        => StripPrefix(declaration, "Pa_");
+    {
+        int underscoreIndex = declaration.Name.IndexOf('_');
+        if (declaration.Name.StartsWith("Pa") && underscoreIndex >= 0)
+            return declaration with { Name = declaration.Name.Substring(underscoreIndex + 1) };
+
+        return declaration;
+    }
 }

@@ -4,6 +4,7 @@ using Biohazrd.Transformation;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace PortAudioNet.Generator;
@@ -162,10 +163,16 @@ internal sealed class MacroTransformation : TransformationBase
     {
         List<TranslationDiagnostic> newDiagnostics = new();
 
+        TranslatedFile? wasapiHeader = library.Files.FirstOrDefault(f => Path.GetFileName(f.FilePath) == "pa_win_wasapi.h");
+
         // Emit diagnostics for unused non-function macros
         foreach (TranslatedMacro macro in library.Macros)
         {
             if (macro.IsFunctionLike || macro.WasUndefined || macro.IsUsedForHeaderGuard || UsedMacros.Contains(macro))
+                continue;
+
+            // Ignore macros from pa_win_waspi.h, none of them are relevant
+            if (macro.File == wasapiHeader)
                 continue;
 
             newDiagnostics.Add(Severity.Warning, $"Constant-like macro '{macro.Name}' went unused, it may need to be added to {nameof(MacroTransformation)}.");
