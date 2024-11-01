@@ -1,6 +1,10 @@
 PortAudio.NET
 =======================================================================================================================
 
+[![MIT Licensed](https://img.shields.io/github/license/horizongir/portaudio.net?style=flat-square)](LICENSE)
+[![CI Status](https://img.shields.io/github/actions/workflow/status/horizongir/portaudio.net/PortAudioNet.yml?branch=main&style=flat-square&label=CI)](https://github.com/horizongir/PortAudio.NET/actions/workflows/PortAudioNet.yml?query=branch%3Amain)
+[![NuGet Version](https://img.shields.io/nuget/v/PortAudioNet?style=flat-square)](https://www.nuget.org/packages/PortAudioNet/)
+
 WIP low-level C# bindings for [PortAudio](https://www.portaudio.com/).
 
 Currently only Windows x64 is well-tested, although Linux x64 is expected to work if you regenerate the bindings.
