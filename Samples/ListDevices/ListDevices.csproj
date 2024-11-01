@@ -4,7 +4,6 @@
     <TargetFrameworks>net8.0;net472</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\PortAudioNet.Native\PortAudioNet.Native.csproj" />
     <ProjectReference Include="..\..\PortAudioNet\PortAudioNet.csproj" />
   </ItemGroup>
 </Project>

@@ -5,10 +5,11 @@
     <Version>0.0.0-dev$(DevVersion)</Version>
   </PropertyGroup>
   <PropertyGroup Condition="'$(ContinuousIntegrationBuild)' == 'true'">
-    <Version>$(CiBuildVersion)</Version>
+    <Version>0.0.0$(CiBuildVersionSuffix)</Version>
+    <Version Condition="'$(CiBuildVersion)' != ''">$(CiBuildVersion)</Version>
   </PropertyGroup>
 
-  <Target Name="EnsureCiBuildsHaveVersion" BeforeTargets="Build;Pack" Condition="'$(ContinuousIntegrationBuild)' == 'true' and '$(CiBuildVersion)' == ''">
+  <Target Name="EnsureCiBuildsHaveVersion" BeforeTargets="Build;Pack" Condition="'$(ContinuousIntegrationBuild)' == 'true' and '$(Version)' == ''">
     <Error Text="ContinuousIntegrationBuild is enabled without specifying version number!" />
   </Target>
 

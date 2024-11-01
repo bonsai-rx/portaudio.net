@@ -9,11 +9,11 @@
 
     <!-- Common NuGet Package Properties -->
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://github.com/neurogears</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/horizongir/PortAudio.NET</PackageProjectUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Authors>NeuroGEARS Ltd. and Contributors</Authors>
-    <Copyright>Copyright NeuroGEARS Ltd. and Contributors</Copyright>
+    <Authors>NeuroGEARS Ltd and Contributors</Authors>
+    <Copyright>Copyright NeuroGEARS Ltd and Contributors</Copyright>
     <Product>PortAudioNet</Product>
 
     <Description>Automatically generated C# bindings for PortAudio.</Description>
