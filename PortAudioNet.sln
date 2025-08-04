@@ -3,25 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35417.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortAudioNet.Generator", "PortAudioNet.Generator\PortAudioNet.Generator.csproj", "{BE3DBC8B-BD03-4534-8536-036026CA120A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortAudioNet.Generator", "src\PortAudioNet.Generator\PortAudioNet.Generator.csproj", "{BE3DBC8B-BD03-4534-8536-036026CA120A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortAudioNet", "PortAudioNet\PortAudioNet.csproj", "{24AF6FCC-6846-4014-8EF7-C1984467EF73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortAudioNet", "src\PortAudioNet\PortAudioNet.csproj", "{24AF6FCC-6846-4014-8EF7-C1984467EF73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortAudioNet.Native", "PortAudioNet.Native\PortAudioNet.Native.csproj", "{B7FC7574-8B80-49D7-9487-B359AFBBC522}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortAudioNet.Native", "src\PortAudioNet.Native\PortAudioNet.Native.csproj", "{B7FC7574-8B80-49D7-9487-B359AFBBC522}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tooling", "tooling", "{0C4DA120-87E0-44DA-9045-38A4F590FD45}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{DEE5DD87-39C1-BF34-B639-A387DCCF972B}"
 	ProjectSection(SolutionItems) = preProject
-		tooling\Common.csproj.props = tooling\Common.csproj.props
-		tooling\Common.csproj.targets = tooling\Common.csproj.targets
-		tooling\Common.props = tooling\Common.props
-		tooling\Common.targets = tooling\Common.targets
+		build\Common.csproj.props = build\Common.csproj.props
+		build\Common.csproj.targets = build\Common.csproj.targets
+		build\Common.props = build\Common.props
+		build\Common.targets = build\Common.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{C84D0B8B-C6D6-4981-BFDF-38011158FD0A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListDevices", "Samples\ListDevices\ListDevices.csproj", "{496E4E83-4E86-4199-B3FF-E2F8D5DD7789}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListDevices", "src\Samples\ListDevices\ListDevices.csproj", "{496E4E83-4E86-4199-B3FF-E2F8D5DD7789}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SineWave", "Samples\SineWave\SineWave.csproj", "{01ECF731-EB77-4329-90C4-FF862F8E8759}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SineWave", "src\Samples\SineWave\SineWave.csproj", "{01ECF731-EB77-4329-90C4-FF862F8E8759}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,7 +54,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{496E4E83-4E86-4199-B3FF-E2F8D5DD7789} = {C84D0B8B-C6D6-4981-BFDF-38011158FD0A}
-		{01ECF731-EB77-4329-90C4-FF862F8E8759} = {C84D0B8B-C6D6-4981-BFDF-38011158FD0A}
+		{496E4E83-4E86-4199-B3FF-E2F8D5DD7789} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{01ECF731-EB77-4329-90C4-FF862F8E8759} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 EndGlobal

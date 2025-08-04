@@ -2,7 +2,7 @@ name: PortAudio.NET
 on:
   push:
     # This prevents tag pushes from triggering this workflow
-    branches: ['*']
+    branches: ['**']
   pull_request:
   release:
     types: [published]
@@ -31,12 +31,12 @@ jobs:
           - name: Windows x64
             os: windows-latest
             rid: win-x64
-            native-build-command: ./PortAudioNet.Native/build-native.cmd
+            native-build-command: ./src/PortAudioNet.Native/build-native.cmd
             generate-command: ./generate.cmd
           - name: Linux x64
             os: ubuntu-22.04
             rid: linux-x64
-            native-build-command: ./PortAudioNet.Native/build-native.sh
+            native-build-command: ./src/PortAudioNet.Native/build-native.sh
             generate-command: ./generate.sh
     name: ${{matrix.name}}
     runs-on: ${{matrix.os}}
@@ -79,7 +79,7 @@ jobs:
       # ----------------------------------------------------------------------- Populate PortAudio Git revision
       - name: Populate PortAudio Git revision
         shell: bash
-        working-directory: external/portaudio/
+        working-directory: src/external/portaudio/
         run: ./update_gitrevision.sh
 
       # ----------------------------------------------------------------------- Build native library
@@ -88,10 +88,10 @@ jobs:
 
       # ----------------------------------------------------------------------- Generate PortAudioNet
       - name: Restore PortAudioNet.Generator
-        run: dotnet restore PortAudioNet.Generator
+        run: dotnet restore src/PortAudioNet.Generator
 
       - name: Build PortAudioNet.Generator
-        run: dotnet build PortAudioNet.Generator --configuration Release
+        run: dotnet build src/PortAudioNet.Generator --configuration Release
 
       - name: Generate PortAudioNet
         id: generate
@@ -108,39 +108,39 @@ jobs:
         # Ideally we'd just manually specify the dependency but NuGet makes that really annoying to do. See https://github.com/NuGet/Home/issues/8133
         env:
           Configuration: Release
-        run: dotnet restore PortAudioNet
+        run: dotnet restore src/PortAudioNet
 
       - name: Build PortAudioNet
-        run: dotnet build PortAudioNet --no-restore --configuration Release
+        run: dotnet build src/PortAudioNet --no-restore --configuration Release
 
       # ----------------------------------------------------------------------- Pack PortAudioNet
       - name: Pack PortAudioNet
         id: pack
-        run: dotnet pack PortAudioNet --no-build --configuration Release
+        run: dotnet pack src/PortAudioNet --no-build --configuration Release
 
       # ----------------------------------------------------------------------- Pack PortAudioNet.Native variants
       - name: Restore PortAudioNet
-        run: dotnet restore PortAudioNet.Native --runtime ${{matrix.rid}}
+        run: dotnet restore src/PortAudioNet.Native --runtime ${{matrix.rid}}
 
       - name: Pack PortAudioNet.Native.${{matrix.rid}}-debug
-        run: dotnet pack PortAudioNet.Native --no-build --configuration Debug /p:RuntimeIdentifier=${{matrix.rid}}
+        run: dotnet pack src/PortAudioNet.Native --no-build --configuration Debug /p:RuntimeIdentifier=${{matrix.rid}}
       - name: Pack PortAudioNet.Native.${{matrix.rid}}
-        run: dotnet pack PortAudioNet.Native --no-build --configuration Release /p:RuntimeIdentifier=${{matrix.rid}}
+        run: dotnet pack src/PortAudioNet.Native --no-build --configuration Release /p:RuntimeIdentifier=${{matrix.rid}}
 
       # ----------------------------------------------------------------------- Run device listing sample as a smoke test
       # We do this last so it can't indirectly affect the build process of any packages
       - name: Smoke test modern .NET (Debug)
         if: ${{matrix.rid != 'linux-x64'}}
-        run: dotnet run --project Samples/ListDevices --framework net8.0 --configuration Debug
+        run: dotnet run --project src/Samples/ListDevices --framework net8.0 --configuration Debug
       - name: Smoke test modern .NET (Release)
         if: ${{matrix.rid != 'linux-x64'}}
-        run: dotnet run --project Samples/ListDevices --framework net8.0 --configuration Release
+        run: dotnet run --project src/Samples/ListDevices --framework net8.0 --configuration Release
       - name: Smoke test .NET Framework (Debug)
         if: matrix.rid == 'win-x64'
-        run: dotnet run --project Samples/ListDevices --framework net472 --configuration Debug
+        run: dotnet run --project src/Samples/ListDevices --framework net472 --configuration Debug
       - name: Smoke test .NET Framework (Release)
         if: matrix.rid == 'win-x64'
-        run: dotnet run --project Samples/ListDevices --framework net472 --configuration Release
+        run: dotnet run --project src/Samples/ListDevices --framework net472 --configuration Release
 
       # ----------------------------------------------------------------------- Ensure everything else builds
       # This mainly exists to ensure all samples build
@@ -167,7 +167,7 @@ jobs:
         with:
           name: Generated-${{matrix.rid}}
           if-no-files-found: error
-          path: PortAudioNet/#Generated/**
+          path: src/PortAudioNet/#Generated/**
 
   # =====================================================================================================================================================================
   # Publish NuGet Packages to GitHub
