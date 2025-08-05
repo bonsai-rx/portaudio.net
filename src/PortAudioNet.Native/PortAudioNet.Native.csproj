@@ -62,7 +62,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Remove the managed license and replace it with the native one -->
-    <None Remove="$(MSBuildThisFileDirectory)../../LICENSE" />
+    <None Remove="$(MSBuildThisFileDirectory)../../LICENSE.md" />
     <None Include="$(_NativeLicenseFilePath)" Pack="true" PackagePath="" />
 
     <!-- Include source files just so they're visible in Visual Studio -->
