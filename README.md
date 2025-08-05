@@ -1,11 +1,11 @@
 PortAudio.NET
 =======================================================================================================================
 
-[![MIT Licensed](https://img.shields.io/github/license/horizongir/portaudio.net?style=flat-square)](LICENSE)
-[![CI Status](https://img.shields.io/github/actions/workflow/status/horizongir/portaudio.net/PortAudioNet.yml?branch=main&style=flat-square&label=CI)](https://github.com/horizongir/PortAudio.NET/actions/workflows/PortAudioNet.yml?query=branch%3Amain)
+[![MIT Licensed](https://img.shields.io/github/license/bonsai-rx/portaudio.net?style=flat-square)](LICENSE.md)
+[![CI Status](https://img.shields.io/github/actions/workflow/status/bonsai-rx/portaudio.net/PortAudioNet.yml?branch=main&style=flat-square&label=CI)](https://github.com/bonsai-rx/portaudio.net/actions/workflows/PortAudioNet.yml?query=branch%3Amain)
 [![NuGet Version](https://img.shields.io/nuget/v/PortAudioNet?style=flat-square)](https://www.nuget.org/packages/PortAudioNet/)
 
-WIP low-level C# bindings for [PortAudio](https://www.portaudio.com/).
+Low-level C# bindings for [PortAudio](https://www.portaudio.com/).
 
 Currently only Windows x64 is well-tested, although Linux x64 is expected to work if you regenerate the bindings.
 
@@ -13,9 +13,9 @@ Most of PortAudio's host API-specific funcionality is not yet exposed with the e
 
 ## License
 
-This project is licensed under the MIT License. [See the license file for details](LICENSE).
+`PortAudio.NET` is released as open source under the [MIT license](LICENSE.md).
 
-Additionally, this project has some third-party dependencies. [See the third-party notice listing for details](THIRD-PARTY-NOTICES.md).
+Additionally, this project integrates and makes use of third-party dependencies, subject to separate license agreements. [See the third-party notice listing for details](THIRD-PARTY-NOTICES.md).
 
 ## Building
 
@@ -50,6 +50,6 @@ Ubuntu 22.10 and later currently require manually installing `libtinfo5`, see [t
 
 ### Building and running the samples
 
-Simply build+run any of the samples as you would any other .NET project. (IE: Using F5 in Visual Studio or `dotnet run --project Samples/ListDevices --framework net8.0`.)
+Simply build+run any of the samples as you would any other .NET project. (IE: Using F5 in Visual Studio or `dotnet run --project src/Samples/ListDevices --framework net8.0`.)
 
 The native PortAudio code will be built automatically if you didn't build it yourself.

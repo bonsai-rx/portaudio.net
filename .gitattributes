@@ -1,2 +1,38 @@
-# Don't attempt end of line normalization on shell scripts
+# Auto detect text files and normalize line endings
+* text=auto
+
+# Scripts
+*.cmd text eol=crlf
 *.sh -text
+*.ps1 text
+
+# Config
+*.gitignore text
+*.gitattributes text
+*.gitmodules text eol=lf
+*.editorconfig text
+*.git-blame-ignore-revs text
+*.sln text
+*.proj text
+*.props text
+*.targets text
+*.csproj text
+*.config text
+*.json text
+*.xml text
+*.yml text
+
+# Code
+*.manifest text
+*.resx text
+*.cs text
+
+# Documents
+LICENSE text
+*.md text diff=markdown
+
+# Graphics
+*.png binary
+*.ico binary
+*.gif binary
+*.svg text

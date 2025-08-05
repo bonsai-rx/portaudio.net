@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "PortAudioNet.Generator": {
-      "commandName": "Project",
-      "commandLineArgs": "\"$(ProjectDir)../external/portaudio/\" \"$(ProjectDir)../artifacts/obj/PortAudioNet.Native/cmake/win-x64/Debug/portaudio.lib\" \"$(ProjectDir)../PortAudioNet/#Generated/\""
-    }
-  }
-}

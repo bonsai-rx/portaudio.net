@@ -2,17 +2,14 @@ name: PortAudio.NET
 on:
   push:
     # This prevents tag pushes from triggering this workflow
-    branches: ['*']
+    branches: ['**']
   pull_request:
   release:
     types: [published]
   workflow_dispatch:
     inputs:
-      version:
-        description: "Version"
-        default: ""
-      will_publish_packages:
-        description: "Publish packages?"
+      publish-docs-website:
+        description: "Publish docs website to GitHub Pages?"
         default: "false"
 env:
   DOTNET_NOLOGO: true
@@ -31,12 +28,13 @@ jobs:
           - name: Windows x64
             os: windows-latest
             rid: win-x64
-            native-build-command: ./PortAudioNet.Native/build-native.cmd
+            native-build-command: ./src/PortAudioNet.Native/build-native.cmd
             generate-command: ./generate.cmd
+            collect-packages: true
           - name: Linux x64
             os: ubuntu-22.04
             rid: linux-x64
-            native-build-command: ./PortAudioNet.Native/build-native.sh
+            native-build-command: ./src/PortAudioNet.Native/build-native.sh
             generate-command: ./generate.sh
     name: ${{matrix.name}}
     runs-on: ${{matrix.os}}
@@ -53,11 +51,6 @@ jobs:
         with:
           dotnet-version: 8.x
 
-      - name: Setup Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
       # Workaround for https://github.com/MochiLibraries/Biohazrd/issues/248
       - name: Install libtinfo5
         if: matrix.rid == 'linux-x64'
@@ -67,19 +60,13 @@ jobs:
 
       # ----------------------------------------------------------------------- Configure build
       - name: Configure build
-        run: python .github/workflows/configure-build.py
-        env:
-          github_event_name: ${{github.event_name}}
-          github_ref: ${{github.ref}}
-          github_run_number: ${{github.run_number}}
-          release_version: ${{github.event.release.tag_name}}
-          workflow_dispatch_version: ${{github.event.inputs.version}}
-          workflow_dispatch_will_publish_packages: ${{github.event.inputs.will_publish_packages}}
+        id: configure-build
+        uses: bonsai-rx/configure-build@v1
 
       # ----------------------------------------------------------------------- Populate PortAudio Git revision
       - name: Populate PortAudio Git revision
         shell: bash
-        working-directory: external/portaudio/
+        working-directory: src/external/portaudio/
         run: ./update_gitrevision.sh
 
       # ----------------------------------------------------------------------- Build native library
@@ -88,10 +75,10 @@ jobs:
 
       # ----------------------------------------------------------------------- Generate PortAudioNet
       - name: Restore PortAudioNet.Generator
-        run: dotnet restore PortAudioNet.Generator
+        run: dotnet restore src/PortAudioNet.Generator
 
       - name: Build PortAudioNet.Generator
-        run: dotnet build PortAudioNet.Generator --configuration Release
+        run: dotnet build src/PortAudioNet.Generator --configuration Release
 
       - name: Generate PortAudioNet
         id: generate
@@ -108,39 +95,39 @@ jobs:
         # Ideally we'd just manually specify the dependency but NuGet makes that really annoying to do. See https://github.com/NuGet/Home/issues/8133
         env:
           Configuration: Release
-        run: dotnet restore PortAudioNet
+        run: dotnet restore src/PortAudioNet
 
       - name: Build PortAudioNet
-        run: dotnet build PortAudioNet --no-restore --configuration Release
+        run: dotnet build src/PortAudioNet --no-restore --configuration Release
 
       # ----------------------------------------------------------------------- Pack PortAudioNet
       - name: Pack PortAudioNet
         id: pack
-        run: dotnet pack PortAudioNet --no-build --configuration Release
+        run: dotnet pack src/PortAudioNet --no-build --configuration Release
 
       # ----------------------------------------------------------------------- Pack PortAudioNet.Native variants
       - name: Restore PortAudioNet
-        run: dotnet restore PortAudioNet.Native --runtime ${{matrix.rid}}
+        run: dotnet restore src/PortAudioNet.Native --runtime ${{matrix.rid}}
 
       - name: Pack PortAudioNet.Native.${{matrix.rid}}-debug
-        run: dotnet pack PortAudioNet.Native --no-build --configuration Debug /p:RuntimeIdentifier=${{matrix.rid}}
+        run: dotnet pack src/PortAudioNet.Native --no-build --configuration Debug /p:RuntimeIdentifier=${{matrix.rid}}
       - name: Pack PortAudioNet.Native.${{matrix.rid}}
-        run: dotnet pack PortAudioNet.Native --no-build --configuration Release /p:RuntimeIdentifier=${{matrix.rid}}
+        run: dotnet pack src/PortAudioNet.Native --no-build --configuration Release /p:RuntimeIdentifier=${{matrix.rid}}
 
       # ----------------------------------------------------------------------- Run device listing sample as a smoke test
       # We do this last so it can't indirectly affect the build process of any packages
       - name: Smoke test modern .NET (Debug)
         if: ${{matrix.rid != 'linux-x64'}}
-        run: dotnet run --project Samples/ListDevices --framework net8.0 --configuration Debug
+        run: dotnet run --project src/Samples/ListDevices --framework net8.0 --configuration Debug
       - name: Smoke test modern .NET (Release)
         if: ${{matrix.rid != 'linux-x64'}}
-        run: dotnet run --project Samples/ListDevices --framework net8.0 --configuration Release
+        run: dotnet run --project src/Samples/ListDevices --framework net8.0 --configuration Release
       - name: Smoke test .NET Framework (Debug)
         if: matrix.rid == 'win-x64'
-        run: dotnet run --project Samples/ListDevices --framework net472 --configuration Debug
+        run: dotnet run --project src/Samples/ListDevices --framework net472 --configuration Debug
       - name: Smoke test .NET Framework (Release)
         if: matrix.rid == 'win-x64'
-        run: dotnet run --project Samples/ListDevices --framework net472 --configuration Release
+        run: dotnet run --project src/Samples/ListDevices --framework net472 --configuration Release
 
       # ----------------------------------------------------------------------- Ensure everything else builds
       # This mainly exists to ensure all samples build
@@ -154,34 +141,89 @@ jobs:
       # ----------------------------------------------------------------------- Collect artifacts
       # All of these steps ignore failure so that we get what artifacts are available when things are broken
       - name: Collect NuGet packages
-        if: steps.pack.outcome == 'success' && always()
         uses: actions/upload-artifact@v4
+        if: matrix.collect-packages && steps.pack.outcome == 'success' && always()
         with:
           name: Packages-${{matrix.rid}}
           if-no-files-found: error
-          path: artifacts/package/**
+          path: artifacts/package/Release/**
 
       - name: Collect generated output
-        if: steps.generate.outcome == 'success' && always()
         uses: actions/upload-artifact@v4
+        if: steps.generate.outcome == 'success' && always()
         with:
           name: Generated-${{matrix.rid}}
           if-no-files-found: error
-          path: PortAudioNet/#Generated/**
+          path: src/PortAudioNet/#Generated/**
+
+  # =====================================================================================================================================================================
+  # Build documentation
+  # =====================================================================================================================================================================
+  build-documentation:
+    name: Build documentation
+    runs-on: ubuntu-latest
+    steps:
+      # ----------------------------------------------------------------------- Checkout
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # ----------------------------------------------------------------------- Set up tools
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+
+      - name: Set up .NET tools
+        run: dotnet tool restore
+
+      # ----------------------------------------------------------------------- Restore
+      - name: Restore
+        run: dotnet restore
+
+      # ----------------------------------------------------------------------- Build metadata
+      - name: Build metadata
+        id: build-metadata
+        run: dotnet docfx metadata docs/docfx.json --noRestore
+
+      # ----------------------------------------------------------------------- Build documentation
+      - name: Build documentation
+        id: build-documentation
+        run: dotnet docfx build docs/docfx.json
+
+      # ----------------------------------------------------------------------- Collect artifacts
+      - name: Collect documentation metadata
+        uses: actions/upload-artifact@v4
+        if: steps.build-metadata.outcome == 'success' && always()
+        with:
+          name: DocumentationMetadata
+          if-no-files-found: error
+          path: artifacts/docs/api/
+
+      - name: Collect documentation artifact
+        uses: actions/upload-artifact@v4
+        if: steps.build-documentation.outcome == 'success' && always()
+        with:
+          name: DocumentationWebsite
+          if-no-files-found: error
+          path: artifacts/docs/site/
 
   # =====================================================================================================================================================================
   # Publish NuGet Packages to GitHub
   # =====================================================================================================================================================================
-  publish-packages-github:
-    name: Publish to GitHub
+  publish-github:
+    name: Publish packages to GitHub
     runs-on: ubuntu-latest
-    needs: [build]
-    # Pushes always publish CI packages (configure-build.py will add the branch name to the version string for branches besides main)
-    # Published releases always publish packages
-    # A manual workflow only publishes packages if explicitly enabled
-    if: github.event_name == 'push' || github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && github.event.inputs.will_publish_packages == 'true')
+    needs: build
+    permissions:
+      # Needed to attach files to releases
+      contents: write
+      # Needed to upload to GitHub Packages
+      packages: write
+    if: github.event_name == 'push' || github.event_name == 'release'
     steps:
-      # ----------------------------------------------------------------------- Setup tools
+      # ----------------------------------------------------------------------- Set up .NET
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -192,18 +234,18 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: Packages-win-x64
-          path: Packages
+          path: artifacts/packages/
 
       # ----------------------------------------------------------------------- Upload release assets
       - name: Upload release assets
         if: github.event_name == 'release'
-        run: gh release upload ${{github.event.release.tag_name}} Packages/**/*.nupkg --clobber -R ${{github.repository}}
+        run: gh release upload --repo ${{github.repository}} ${{github.event.release.tag_name}} artifacts/packages/* --clobber
         env:
           GH_TOKEN: ${{github.token}}
 
       # ----------------------------------------------------------------------- Push to GitHub Packages
       - name: Push to GitHub Packages
-        run: dotnet nuget push "Packages/**/*.nupkg" --skip-duplicate --no-symbols --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/${{github.repository_owner}}
+        run: dotnet nuget push "artifacts/packages/*.nupkg" --skip-duplicate --no-symbols --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/${{github.repository_owner}}
         env:
           # This is a workaround for https://github.com/NuGet/Home/issues/9775
           DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER: 0
@@ -212,16 +254,13 @@ jobs:
   # Publish NuGet Packages to NuGet.org
   # =====================================================================================================================================================================
   publish-packages-nuget-org:
-    name: Publish to NuGet.org
+    name: Publish packages to NuGet.org
     runs-on: ubuntu-latest
-    needs: [build]
-    environment: PublicRelease
-    # Release builds always publish packages to NuGet.org
-    # Workflow dispatch builds will only publish packages if enabled and an explicit version number is given
-    # Make sure this logic matches configure-build.py to ensure we don't accidentally depend on sibling CI pre-release packages
-    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && github.event.inputs.will_publish_packages == 'true' && github.event.inputs.version != '')
+    environment: public-release
+    needs: build
+    if: github.event_name == 'release'
     steps:
-      # ----------------------------------------------------------------------- Setup tools
+      # ----------------------------------------------------------------------- Set up .NET
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -232,11 +271,54 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: Packages-win-x64
-          path: Packages
+          path: artifacts/packages/
 
       # ----------------------------------------------------------------------- Push to NuGet.org
       - name: Push to NuGet.org
-        run: dotnet nuget push "Packages/**/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source ${{vars.NUGET_API_URL}}
+        run: dotnet nuget push "artifacts/packages/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source ${{vars.NUGET_API_URL}}
         env:
           # This is a workaround for https://github.com/NuGet/Home/issues/9775
           DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER: 0
+
+  # =====================================================================================================================================================================
+  # Publish documentation
+  # =====================================================================================================================================================================
+  publish-documentation:
+    name: Publish documentation
+    runs-on: ubuntu-latest
+    # Publishing is not strictly necessary here, but if we're going to do a public release we want to wait to publish the docs until it goes out
+    needs: [build-documentation, publish-packages-nuget-org]
+    permissions:
+      # Both required by actions/deploy-pages
+      pages: write
+      id-token: write
+    environment:
+      # Intentionally not using the "default" github-pages environment as it's not compatible with this workflow
+      name: documentation-website
+      url: ${{steps.publish.outputs.page_url}}
+    # Only run if the workflow isn't dying and build-documentation was successful and either A) we're releasing or B) we have continuous deployment enabled
+    if: |
+      !cancelled() && !failure() && needs.build-documentation.result == 'success'
+      && (github.event_name == 'release'
+      || (github.event_name == 'workflow_dispatch' && github.event.inputs.publish-docs-website == 'true')
+      || (github.event_name == 'push' && vars.CONTINUOUS_DOCUMENTATION)
+      )
+    steps:
+      # ----------------------------------------------------------------------- Download documentation website components
+      # It is intentional that we use two independent download steps here as it ensures that workflow images are permitted
+      # to overwrite any conflicts in the docfx output but not the other way around.
+      - name: Download documentation website
+        uses: actions/download-artifact@v4
+        with:
+          name: DocumentationWebsite
+
+      # ----------------------------------------------------------------------- Collect artifacts
+      - name: Upload final documentation website artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      # ----------------------------------------------------------------------- Publish to GitHub Pages
+      - name: Publish to GitHub Pages
+        id: publish
+        uses: actions/deploy-pages@v4
