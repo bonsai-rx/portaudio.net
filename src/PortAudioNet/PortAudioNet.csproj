@@ -1,10 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <TargetFrameworks>net8.0;net472</TargetFrameworks>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\PortAudioNet.Native\PortAudioNet.Native.csproj" PrivateAssets="all" />
+    <None Include="$(MSBuildProjectDirectory)/README.md" Pack="true" PackagePath="" Visible="false" />
     <None Include="PortAudioNet.targets" Pack="true" PackagePath="build" />
   </ItemGroup>
   <Target Name="GenerateRuntimeJson" BeforeTargets="_GetPackageFiles;GenerateNuspec">

@@ -2,4 +2,4 @@
 _layout: landing
 ---
 
-[!INCLUDE [](../README.md)]
+[!INCLUDE [](README.md)]

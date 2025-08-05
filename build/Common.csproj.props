@@ -9,7 +9,7 @@
 
     <!-- Common NuGet Package Properties -->
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://github.com/bonsai-rx/portaudio.net</PackageProjectUrl>
+    <PackageProjectUrl>https://bonsai-rx.org/portaudio.net</PackageProjectUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <Authors>Bonsai Foundation</Authors>
