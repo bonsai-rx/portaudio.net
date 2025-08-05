@@ -1,7 +1,7 @@
 PortAudio.NET
 =======================================================================================================================
 
-[![MIT Licensed](https://img.shields.io/github/license/bonsai-rx/portaudio.net?style=flat-square)](LICENSE.md)
+[![MIT Licensed](https://img.shields.io/github/license/bonsai-rx/portaudio.net?style=flat-square)](../LICENSE.md)
 [![CI Status](https://img.shields.io/github/actions/workflow/status/bonsai-rx/portaudio.net/PortAudioNet.yml?branch=main&style=flat-square&label=CI)](https://github.com/bonsai-rx/portaudio.net/actions/workflows/PortAudioNet.yml?query=branch%3Amain)
 [![NuGet Version](https://img.shields.io/nuget/v/PortAudioNet?style=flat-square)](https://www.nuget.org/packages/PortAudioNet/)
 
@@ -9,13 +9,13 @@ Low-level C# bindings for [PortAudio](https://www.portaudio.com/).
 
 Currently only Windows x64 is well-tested, although Linux x64 is expected to work if you regenerate the bindings.
 
-Most of PortAudio's host API-specific funcionality is not yet exposed with the exception of WASAPI.
+Most of PortAudio's host API-specific functionality is not yet exposed with the exception of WASAPI.
 
 ## License
 
-`PortAudio.NET` is released as open source under the [MIT license](LICENSE.md).
+`PortAudio.NET` is released as open source under the [MIT license](../LICENSE.md).
 
-Additionally, this project integrates and makes use of third-party dependencies, subject to separate license agreements. [See the third-party notice listing for details](THIRD-PARTY-NOTICES.md).
+Additionally, this project integrates and makes use of third-party dependencies, subject to separate license agreements. [See the third-party notice listing for details](../THIRD-PARTY-NOTICES.md).
 
 ## Building
 
