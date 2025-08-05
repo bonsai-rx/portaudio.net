@@ -23,7 +23,7 @@ if not exist %BUILD_FOLDER% (
 )
 
 :: (Re)generate the Visual Studio solution and build in all configurations
-:: We don't specify a generator specifically so that CMake will default to the latest installed verison of Visual Studio
+:: We don't specify a generator specifically so that CMake will default to the latest installed version of Visual Studio
 :: https://github.com/Kitware/CMake/blob/0c038689be424ca71a6699a993adde3bcaa15b6c/Source/cmake.cxx#L2213-L2214
 cmake ^
     -S %SOURCE_FOLDER% ^
